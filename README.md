@@ -98,26 +98,26 @@
 ## Формат save-файла
 ```json
     {
-      "top": "|9| score: 0",
-      "deck": "|15| |31| |28| |9| |20|",
+      "top": "<9> chips: 0",
+      "deck": "<15>, <31>, <28>, <9>, <20>",
       "current_player_index": 0,
       "players": [
         {
           "name": "Bot_Alex",
           "score": 27,
-          "hand": "|30| |11| |4| |27| |7|",
+          "hand": "<30>, <11>, <4>, <27>, <7>",
           "is_human": false
         },
         {
           "name": "Bob",
           "score": 14,
-          "hand": "|3|, |17|, |19|, |33|",
+          "hand": "<3>, <17>, <19>, <33>",
           "is_human": true
         },
         {
           "name": "Steve",
           "score": 18,
-          "hand": "|5|, |6|, |23|, |21|",
+          "hand": "<5>, <6>, <23>, <21>",
           "is_human": true
         }
       ]
