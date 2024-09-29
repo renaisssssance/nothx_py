@@ -52,13 +52,13 @@ def test_load():
 
 def test_all_cards():
     cards = Card.all_cards([3, 35, 14, 27, 19])
-    excepted_cards = [
+    expected_cards = [
         Card.load(3),
         Card.load(35),
         Card.load(14),
         Card.load(27),
         Card.load(19)
     ]
-    assert cards == excepted_cards
+    assert cards == expected_cards
     cards = Card.all_cards()
     assert len(cards) == 33
