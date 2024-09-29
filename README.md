@@ -51,44 +51,44 @@
         Игрок с наименьшим количеством очков становится победителем.
 
 ## Пример текстового интерфейса игры
-    Bot_Alex: [<>]
-    Bob: [<>]
-    Steve: [<>]
+    Bot_Alex: []
+    Bob: []
+    Steve: []
     ----------
-    Top: <17>, chips: 0
+    Top: 17, chips: 0
     Bot_Alex: pay
-    Top: <17>, chips: 1
+    Top: 17, chips: 1
     Bob: take
     ----------
-    Bot_Alex: [<>]
-    Bob: [<17>]
-    Steve: [<>]
+    Bot_Alex: []
+    Bob: [17]
+    Steve: []
     ----------
-    Top: <14>, chips: 0
+    Top: 14, chips: 0
     Bob: pay
-    Top: <14>, chips: 1
+    Top: 14, chips: 1
     Steve: pay
-    Top: <14>, chips: 2
+    Top: 14, chips: 2
     Bot_Alex: take
     ----------
-    Bot_Alex: [<14>]
-    Bob: [<17>]
-    Steve: [<>]
+    Bot_Alex: [14]
+    Bob: [17]
+    Steve: []
     ----------
-    Top: <29>, chips: 0
+    Top: 29, chips: 0
     Bot_Alex: pay
-    Top: <29>, chips: 1
+    Top: 29, chips: 1
     Bob: take
     ----------
-    Bot_Alex: [<14>]
-    Bob: [<17>, <29>]
-    Steve: [<>]
+    Bot_Alex: [14]
+    Bob: [17, 29]
+    Steve: []
     ----------
     ..........
     ----------
-    Bot_Alex: [<14>, <5>, <23>, <16>, <20>, <18>, <3>]
-    Bob: [<10>, <29>, <4>, <6>, <31>, <33>, <35>, <8>]
-    Steve: [<7>, <9>, <24>, <13>, <15>, <11>, <21>, <27>, <34>]
+    Bot_Alex: [14, 5, 23, 16, 20, 18, 3]
+    Bob: [10, 29, 4, 6, 31, 33, 35, 8]
+    Steve: [7, 9, 24, 13, 15, 11, 21, 27, 34]
     ----------
     Total:
     1. Bot_Alex: score = 44
@@ -98,26 +98,30 @@
 ## Формат save-файла
 ```json
     {
-      "top": "<9> chips: 0",
-      "deck": "<15>, <31>, <28>, <9>, <20>",
+      "top": 
+      {
+        "card": 9,
+        "chips": 0
+      },
+      "deck": [15, 31, 28, 9, 20],
       "current_player_index": 0,
       "players": [
         {
           "name": "Bot_Alex",
           "score": 27,
-          "hand": "<30>, <11>, <4>, <27>, <7>",
+          "hand": [30, 11, 4, 27, 7],
           "is_human": false
         },
         {
           "name": "Bob",
           "score": 14,
-          "hand": "<3>, <17>, <19>, <33>",
+          "hand": [3, 17, 19, 33],
           "is_human": true
         },
         {
           "name": "Steve",
           "score": 18,
-          "hand": "<5>, <6>, <23>, <21>",
+          "hand": [5, 6, 23, 21],
           "is_human": true
         }
       ]
