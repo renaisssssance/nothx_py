@@ -43,3 +43,12 @@ def test_add_card():
     a = Hand(cards)
     assert repr(a.add_card(Card(25))) == '[13, 24, 35, 25]'
     assert repr(a.add_card(Card(7))) == '[13, 24, 35, 25, 7]'
+
+
+def test_score():
+    h1 = Hand.load([13, 24, 35])
+    h2 = Hand.load([3, 4, 5, 13, 25, 17])
+    h3 = Hand.load([12, 13, 14, 26, 9, 21, 22, 23])
+    assert h1.score() == 72
+    assert h2.score() == 58
+    assert h3.score() == 68

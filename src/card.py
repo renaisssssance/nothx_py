@@ -31,3 +31,7 @@ class Card:
             values = cls.VALUES
         cards = [cls(value=value) for value in values]
         return cards
+
+
+    def score(self):
+        return self.value

@@ -62,3 +62,10 @@ def test_all_cards():
     assert cards == expected_cards
     cards = Card.all_cards()
     assert len(cards) == 33
+
+
+def test_score():
+    c1 = Card(7)
+    c2 = Card(25)
+    assert c1.score() == 7
+    assert c2.score() == 25

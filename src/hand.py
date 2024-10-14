@@ -28,3 +28,17 @@ class Hand:
     def add_card(self, card: Card):
         self.cards.append(card)
         return self
+
+
+    def score(self):
+        a = [c.value for c in self.cards]
+        a.sort()
+        s = 0
+        last, current = 0, 0
+        while a:
+            last, current = current, a.pop()
+            if last != 0 and last - current == 1:
+                continue
+            s += last
+        s += current
+        return s

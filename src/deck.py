@@ -3,7 +3,7 @@ from src.card import Card
 
 
 class Deck:
-    def __init__(self, cards: None | list[Card]):
+    def __init__(self, cards: None | list[Card] = None):
         if cards is None:
             cards = Card.all_cards()
             random.shuffle(cards)
