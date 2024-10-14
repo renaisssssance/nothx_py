@@ -13,6 +13,8 @@ class Hand:
 
 
     def __eq__(self, other):
+        if isinstance(other, list):
+            other = Hand.load(other)
         return self.cards == other.cards
 
 
