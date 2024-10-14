@@ -4,10 +4,7 @@ from src.game_state import GameState
 from src.player import Player
 
 data = {
-    "top": {
-            "card": 9,
-            "chips": 0
-        },
+    "top": {"card": 9, "chips": 0},
     "deck": [15, 31, 28, 9, 20],
     "current_player_index": 0,
     "players": [
@@ -25,8 +22,8 @@ data = {
             "name": "Steve",
             "chips": 18,
             "hand": [5, 6, 23, 21],
-        }
-    ]
+        },
+    ],
 }
 
 Bot_Alex = Player.load(data["players"][0])
@@ -37,7 +34,9 @@ full_deck = Deck(None)
 
 def test_init():
     players = [Bot_Alex, Bob, Steve]
-    game = GameState(players=players, deck=full_deck, curr_card=Card(7), curr_chips=11, curr_player=1)
+    game = GameState(
+        players=players, deck=full_deck, curr_card=Card(7), curr_chips=11, curr_player=1
+    )
     assert game.players == players
     assert game.deck == full_deck
     assert game.curr_card == Card(7)
@@ -48,15 +47,24 @@ def test_init():
 def test_current_player():
     players = [Bot_Alex, Bob, Steve]
     for i, player in enumerate(players):
-        game = GameState(players=players, deck=full_deck, curr_card=Card(7), curr_chips=11, curr_player=i)
+        game = GameState(
+            players=players,
+            deck=full_deck,
+            curr_card=Card(7),
+            curr_chips=11,
+            curr_player=i,
+        )
         assert game.current_player() == player
 
 
 def test_save():
     players = [Bot_Alex, Bob, Steve]
     game = GameState(
-        players=players, deck=Deck.load(data["deck"]), curr_card=Card.load(data["top"]["card"]),
-        curr_chips=data["top"]["chips"], curr_player=0
+        players=players,
+        deck=Deck.load(data["deck"]),
+        curr_card=Card.load(data["top"]["card"]),
+        curr_chips=data["top"]["chips"],
+        curr_player=0,
     )
     assert game.save() == data
 

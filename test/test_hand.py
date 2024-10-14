@@ -12,8 +12,8 @@ def test_init():
 
 def test_repr():
     a = Hand([Card(17)])
-    assert a.__repr__() == '[17]'
-    assert cards.__repr__() == '[13, 24, 35]'
+    assert a.__repr__() == "[17]"
+    assert cards.__repr__() == "[13, 24, 35]"
 
 
 def test_eq():
@@ -41,8 +41,8 @@ def test_load():
 
 def test_add_card():
     a = Hand(cards)
-    assert repr(a.add_card(Card(25))) == '[13, 24, 35, 25]'
-    assert repr(a.add_card(Card(7))) == '[13, 24, 35, 25, 7]'
+    assert repr(a.add_card(Card(25))) == "[13, 24, 35, 25]"
+    assert repr(a.add_card(Card(7))) == "[13, 24, 35, 25, 7]"
 
 
 def test_score():

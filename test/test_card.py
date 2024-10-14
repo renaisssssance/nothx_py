@@ -12,16 +12,16 @@ def test_init():
     with pytest.raises(ValueError):
         Card(1.15)
     with pytest.raises(ValueError):
-        Card('t')
+        Card("t")
     with pytest.raises(ValueError):
-        Card('25')
+        Card("25")
     with pytest.raises(ValueError):
         Card(-15)
 
 
 def test_repr():
     a = Card(34)
-    assert a.__repr__() == '34'
+    assert a.__repr__() == "34"
 
 
 def test_eq():
@@ -57,7 +57,7 @@ def test_all_cards():
         Card.load(35),
         Card.load(14),
         Card.load(27),
-        Card.load(19)
+        Card.load(19),
     ]
     assert cards == expected_cards
     cards = Card.all_cards()

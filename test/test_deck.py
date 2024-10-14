@@ -19,8 +19,8 @@ def test_init_shuffle():
 
 def test_repr():
     a = Deck([Card(17)])
-    assert a.__repr__() == '[17]'
-    assert cards.__repr__() == '[13, 24, 35]'
+    assert a.__repr__() == "[17]"
+    assert cards.__repr__() == "[13, 24, 35]"
 
 
 def test_eq():

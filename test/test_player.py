@@ -34,4 +34,4 @@ def test_load():
     h = Hand.load([13, 14, 25])
     p_expected = Player(name="Alex", hand=h, chips=17)
     p = Player.load(d)
-    assert  p == p_expected
+    assert p == p_expected
