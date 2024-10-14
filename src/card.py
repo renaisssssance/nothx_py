@@ -13,6 +13,8 @@ class Card:
 
 
     def __eq__(self, other):
+        if isinstance(other, int):
+            other = Card.load(other)
         return self.value == other.value
 
 

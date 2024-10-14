@@ -15,6 +15,8 @@ class Deck:
 
 
     def __eq__(self, other):
+        if isinstance(other, list):
+            other = Deck.load(other)
         return self.cards == other.cards
 
 
