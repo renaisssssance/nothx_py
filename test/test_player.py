@@ -35,3 +35,9 @@ def test_load():
     p_expected = Player(name="Alex", hand=h, chips=17)
     p = Player.load(d)
     assert p == p_expected
+
+
+def test_score():
+    h = Hand.load([13, 14, 25])
+    p = Player(name="Alex", hand=h, chips=17)
+    assert p.score() == 21
