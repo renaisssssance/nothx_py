@@ -92,3 +92,24 @@ def test_draw_card():
     game.draw_card()
     assert game.deck == [15, 31, 28, 9]
     assert game.current_player().hand == [30, 11, 4, 27, 7, 20]
+
+
+def test_take_card():
+    game = GameState.load(data)
+    game.take_card()
+    assert game.current_player().hand == [30, 11, 4, 27, 7, 9]
+    assert game.current_player().chips == 27
+
+
+def test_pay_card():
+    game = GameState.load(data)
+    game.pay_card()
+    assert game.current_player().chips == 26 # 27-1
+    assert game.curr_chips == 1 # 0+1
+
+
+def test_score_players():
+    game = GameState.load(data)
+    score = game.score_players()
+    expected_score = {"Bot_Alex": 52, "Bob": 58, "Steve": 31}
+    assert score == expected_score

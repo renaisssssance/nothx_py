@@ -58,3 +58,14 @@ class GameState:
         card = self.deck.draw_card()
         self.current_player().hand.add_card(card)
         return card
+
+    def take_card(self):
+        self.current_player().hand.add_card(self.curr_card)
+        self.current_player().chips += self.curr_chips
+
+    def pay_card(self):
+        self.current_player().chips -= 1
+        self.curr_chips += 1
+
+    def score_players(self):
+        return {p.name: p.score() for p in self.players}
