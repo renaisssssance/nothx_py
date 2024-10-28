@@ -62,3 +62,10 @@ def test_shuffle():
     assert deck.save() == [22, 25, 23, 20, 24, 21]
     deck.shuffle()
     assert deck.save() == [24, 21, 22, 25, 23, 20]
+
+
+def test_full_deck():
+    d1 = Deck().full_deck()
+    d2 = Deck().full_deck()
+    assert len(d1.cards) == 24 # 33-9=24
+    assert d1 != d2 # shuffle

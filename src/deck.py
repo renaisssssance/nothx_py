@@ -29,3 +29,10 @@ class Deck:
 
     def shuffle(self):
         random.shuffle(self.cards)
+
+    @staticmethod
+    def full_deck():
+        deck = Deck()
+        for _ in range(9):
+            deck.draw_card()
+        return deck
