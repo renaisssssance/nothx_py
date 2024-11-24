@@ -1,6 +1,7 @@
 import enum
 import inspect
 import json
+from operator import itemgetter
 from pathlib import Path
 
 from src.deck import Deck
@@ -13,7 +14,7 @@ from src.player_interaction import PlayerInteraction
 
 class GamePhase(enum.StrEnum):
     START_BIDDING = "Draw new card"
-    BIDDING = "Choose action: pay or take"
+    BIDDING = "Choose action: take card or pay"
     CONTINUE_BIDDING = "Switch current player due to pay"
     DECLARE_WINNER = "Declare a winner"
     GAME_END = "Game ended"
@@ -63,7 +64,7 @@ class GameServer:
     def request_player_count():
         while True:
             try:
-                player_count = int(input("How many players?"))
+                player_count = int(input("How many players?\n"))
                 if 3 <= player_count <= 5:
                     return player_count
             except ValueError:
@@ -79,14 +80,14 @@ class GameServer:
         player_types_as_str = ', '.join(player_types)
 
         while True:
-            name = input("How to call a player?")
+            name = input("How to call a player?\n")
             if name.isalpha():
                 break
             print("Name must be a single word, alphabetic characters only")
 
         while True:
             try:
-                kind = input(f"What kind of players is it ({player_types_as_str})?")
+                kind = input(f"What kind of players is it ({player_types_as_str})?\n")
                 kind = getattr(all_player_types, kind)
                 break
             except AttributeError:
@@ -98,7 +99,8 @@ class GameServer:
         deck = Deck().full_deck()
         top = deck.draw_card()
         game_state = GameState(list(player_types.keys()), deck, top)
-        print(game_state.save())
+        # print(game_state.save())
+        # print(list(player_types.keys()))
         res = cls(player_types, game_state)
         return res
 
@@ -114,7 +116,13 @@ class GameServer:
             current_phase = phases[current_phase]()
 
     def declare_winner_phase(self):
-        print(f"{self.game_state.current_player()} is the winner!")
+        score = self.game_state.score_players()
+        sorted_score = sorted(score.items(), key=itemgetter(1))
+        print("Leaderboard:\n")
+        for index, (p, s) in enumerate(sorted_score, start=1):
+            print(f"{index}. {p}, score={s}")
+        print(f"{sorted_score[0][0]} is the winner!")
+        # print(f"{self.game_state.current_player()} is the winner!")
         return GamePhase.GAME_END
 
     def continue_bidding_phase(self):
@@ -128,21 +136,25 @@ class GameServer:
         self.game_state.curr_card = self.game_state.deck.draw_card()
         self.game_state.curr_chips = 0
         print(f"Top: {self.game_state.curr_card}, chips: {self.game_state.curr_chips}")
+        # self.save(filename='no_thx.json')
         return GamePhase.BIDDING
 
     def bidding_phase(self):
         current_player = self.game_state.current_player()
-        flag = False
-        while not flag:
-            if PlayerInteraction.choose_action() == "take card":
-                self.game_state.take_card()
-                flag = True
-                PlayerInteraction.inform_card_taken()
-            elif PlayerInteraction.choose_action() == "pay card":
-                self.game_state.pay_card()
-                PlayerInteraction.inform_card_paid()
-                return GamePhase.CONTINUE_BIDDING
-        return GamePhase.START_BIDDING
+        print(f"Top: {self.game_state.curr_card}, chips: {self.game_state.curr_chips}")
+        player = self.player_types[current_player.name]
+        #TODO: декодирование пустой строки
+        # отсылается на 145 в сервере и на eq в player(other = self.load(json.loads(other)))
+        # Error: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+        #TODO: отображение методов, связанных с player_interactions (choose_action, inform...) ?????
+        if player.choose_action(current_player) == 'take card':
+            self.game_state.take_card()
+            player.inform_card_taken()
+            return GamePhase.START_BIDDING
+        elif player.choose_action(current_player) == 'pay':
+            self.game_state.pay_card()
+            player.inform_card_paid()
+            return GamePhase.CONTINUE_BIDDING
 
     def inform_all(self, method: str, *args, **kwargs):
         for p in self.player_types.values():
