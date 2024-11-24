@@ -1,6 +1,7 @@
 import enum
 import inspect
 import json
+from pathlib import Path
 
 from src.deck import Deck
 from src.game_state import GameState
@@ -24,12 +25,11 @@ class GameServer:
         self.player_types: dict = player_types
 
     @classmethod
-    def load_game(cls):
-        filename = "no_thx.json"
+    def load_game(cls, filename: str | Path):
         with open(filename, "r") as f:
             data = json.load(f)
             game_state = GameState.load(data)
-            print(game_state.save())
+            # print(game_state.save())
             player_types = {}
             for player, player_data in zip(game_state.players, data["players"]):
                 kind = player_data["kind"]
@@ -37,8 +37,7 @@ class GameServer:
                 player_types[player] = kind
             return GameServer(player_types, game_state)
 
-    def save(self):
-        filename = "no_thx.json"
+    def save(self, filename: str | Path):
         data = self.save_to_dict()
         with open(filename, "w") as f:
             json.dump(data, f, indent=4)
@@ -153,10 +152,10 @@ class GameServer:
 def __main__():
     load_from_file = False
     if load_from_file:
-        server = GameServer.load_game()
-        server.save()
+        server = GameServer.load_game("no_thx.json")
     else:
         server = GameServer.new_game(GameServer.get_players())
+    server.save("no_thx.json")
     server.run()
 
 

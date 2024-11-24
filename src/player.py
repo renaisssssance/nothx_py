@@ -28,7 +28,7 @@ class Player:
         return hash(self.name)
 
     def save(self):
-        return {"name": self.name, "hand": self.hand, "chips": self.chips}
+        return {"name": self.name, "hand": self.hand.save(), "chips": self.chips}
 
     @classmethod
     def load(cls, data: dict):

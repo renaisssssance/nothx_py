@@ -33,8 +33,8 @@ class GameState:
 
     def save(self):
         return {
-            "top": {"card": self.curr_card, "chips": self.curr_chips},
-            "deck": self.deck,
+            "top": {"card": self.curr_card.save(), "chips": self.curr_chips},
+            "deck": self.deck.save(),
             "current_player_index": self._curr_player,
             "players": [p.save() for p in self.players],
         }
