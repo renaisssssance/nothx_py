@@ -6,7 +6,7 @@ from src.player import Player
 class PlayerInteraction(ABC):
     @classmethod
     @abstractmethod
-    def choose_action(cls):
+    def choose_action(cls, player: Player):
         """
         Принимает решение взять карту или использовать фишку
         """
