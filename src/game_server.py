@@ -118,6 +118,8 @@ class GameServer:
     def declare_winner_phase(self):
         score = self.game_state.score_players()
         sorted_score = sorted(score.items(), key=itemgetter(1))
+        #TODO: возможно изменить сортировку
+        # sorted может не сработать из-за приколов с классами, добавить что-то по типу __eq__ (lt, gt)
         print("Leaderboard:\n")
         for index, (p, s) in enumerate(sorted_score, start=1):
             print(f"{index}. {p}, score={s}")
