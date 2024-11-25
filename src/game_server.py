@@ -99,8 +99,6 @@ class GameServer:
         deck = Deck().full_deck()
         top = deck.draw_card()
         game_state = GameState(list(player_types.keys()), deck, top)
-        # print(game_state.save())
-        # print(list(player_types.keys()))
         res = cls(player_types, game_state)
         return res
 
@@ -118,42 +116,33 @@ class GameServer:
     def declare_winner_phase(self):
         score = self.game_state.score_players()
         sorted_score = sorted(score.items(), key=itemgetter(1))
-        #TODO: возможно изменить сортировку
-        # sorted может не сработать из-за приколов с классами, добавить что-то по типу __eq__ (lt, gt)
         print("Leaderboard:\n")
         for index, (p, s) in enumerate(sorted_score, start=1):
             print(f"{index}. {p}, score={s}")
         print(f"{sorted_score[0][0]} is the winner!")
-        # print(f"{self.game_state.current_player()} is the winner!")
         return GamePhase.GAME_END
 
     def continue_bidding_phase(self):
         self.game_state.next_player()
-        print(f"{self.game_state.current_player()}'s paid")
         return GamePhase.BIDDING
 
     def start_bidding_phase(self):
-        if not self.game_state.deck:
+        if self.game_state.deck == Deck([]):
             return GamePhase.DECLARE_WINNER
         self.game_state.curr_card = self.game_state.deck.draw_card()
         self.game_state.curr_chips = 0
-        print(f"Top: {self.game_state.curr_card}, chips: {self.game_state.curr_chips}")
-        # self.save(filename='no_thx.json')
         return GamePhase.BIDDING
 
     def bidding_phase(self):
         current_player = self.game_state.current_player()
         print(f"Top: {self.game_state.curr_card}, chips: {self.game_state.curr_chips}")
-        player = self.player_types[current_player.name]
-        #TODO: декодирование пустой строки
-        # отсылается на 145 в сервере и на eq в player(other = self.load(json.loads(other)))
-        # Error: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
-        #TODO: отображение методов, связанных с player_interactions (choose_action, inform...) ?????
-        if player.choose_action(current_player) == 'take card':
+        player = self.player_types[current_player]
+        action = player.choose_action(current_player)
+        if action == 'take card':
             self.game_state.take_card()
             player.inform_card_taken()
             return GamePhase.START_BIDDING
-        elif player.choose_action(current_player) == 'pay':
+        elif action == 'pay':
             self.game_state.pay_card()
             player.inform_card_paid()
             return GamePhase.CONTINUE_BIDDING
@@ -169,7 +158,7 @@ def __main__():
         server = GameServer.load_game("no_thx.json")
     else:
         server = GameServer.new_game(GameServer.get_players())
-    server.save("no_thx.json")
+    server.save("no_thx_savefile.json")
     server.run()
 
 
