@@ -6,7 +6,7 @@ class Human(PlayerInteraction):
     @classmethod
     def choose_action(cls, player: Player):
         while True:
-            print("Choose action: type 't' or 'p' (take card or pay)\n")
+            print("Choose action: type 't' or 'p' (take card or pay)")
             action = input()
             if action == "t":
                 return 'take card'

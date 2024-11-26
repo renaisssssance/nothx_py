@@ -46,7 +46,6 @@ class GameServer:
     def save_to_dict(self):
         data = self.game_state.save()
         for player_index, player in enumerate(self.player_types.keys()):
-            player_interaction = self.player_types[player]
             data["players"][player_index]["kind"] = self.player_types[player].__name__
         return data
 
@@ -116,7 +115,7 @@ class GameServer:
     def declare_winner_phase(self):
         score = self.game_state.score_players()
         sorted_score = sorted(score.items(), key=itemgetter(1))
-        print("Leaderboard:\n")
+        print("Leaderboard:")
         for index, (p, s) in enumerate(sorted_score, start=1):
             print(f"{index}. {p}, score={s}")
         print(f"{sorted_score[0][0]} is the winner!")
@@ -136,15 +135,18 @@ class GameServer:
     def bidding_phase(self):
         current_player = self.game_state.current_player()
         print(f"Top: {self.game_state.curr_card}, chips: {self.game_state.curr_chips}")
+        print(f"Move: {self.game_state.current_player()}")
         player = self.player_types[current_player]
         action = player.choose_action(current_player)
         if action == 'take card':
             self.game_state.take_card()
-            player.inform_card_taken()
+            print(f"{self.game_state.current_player().name}'s taken")
+            # player.inform_card_taken()
             return GamePhase.START_BIDDING
         elif action == 'pay':
             self.game_state.pay_card()
-            player.inform_card_paid()
+            print(f"{self.game_state.current_player().name}'s paid")
+            # player.inform_card_paid()
             return GamePhase.CONTINUE_BIDDING
 
     def inform_all(self, method: str, *args, **kwargs):
